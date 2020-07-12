@@ -1,12 +1,11 @@
 import React from "react";
-import classes from "./Post.module.css";
-const post = (props) => {
+const fullPost = (props) => {
   return (
-    <div className={classes.Post}>
+    <div>
       <p>{props.postData.title}</p>
       <p>{props.postData.content}</p>
     </div>
   );
 };
 
-export default post;
+export default fullPost;
