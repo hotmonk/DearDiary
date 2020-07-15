@@ -1,29 +1,29 @@
-.Burger {
-  width: 100%;
-  margin: auto;
-  height: 250px;
-  overflow: scroll;
-  text-align: center;
+.Button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  outline: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 10px;
+  margin: 10px;
   font-weight: bold;
-  font-size: 1.2rem;
-}
-@media (min-width: 500px) and (min-height: 400px) {
-  .Burger {
-    width: 350px;
-    height: 300px;
-  }
 }
 
-@media (min-width: 500px) and (min-height: 401px) {
-  .Burger {
-    width: 450px;
-    height: 400px;
-  }
+.Button:first-of-type {
+  margin-left: 0;
+  padding-left: 0;
 }
 
-@media (min-width: 1000px) and (min-height: 700px) {
-  .Burger {
-    width: 700px;
-    height: 600px;
-  }
+.Success {
+  color: #5c9210;
+}
+
+.Danger {
+  color: #944317;
+}
+
+.Button:disabled {
+  color: #ccc;
+  cursor: not-allowed;
 }

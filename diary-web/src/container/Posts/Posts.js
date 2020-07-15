@@ -1,25 +1,12 @@
 import React, { Component } from "react";
 import Post from "../../components/Post";
 import Axios from "../../axios-posts";
+import { Link } from "react-router-dom";
+import Auxillary from "../../hoc/Auxillary/Auxillary";
+import Button from "../../components/UI/Forms/Button/Button";
 class Posts extends Component {
   state = {
-    posts: [
-      {
-        title: "Post 1",
-        content: "Conetent 1",
-        id: "1",
-      },
-      {
-        title: "Post 2",
-        content: "Content 2",
-        id: "2",
-      },
-      {
-        title: "Post 3",
-        content: "Content 3",
-        id: "3",
-      },
-    ],
+    posts: null,
   };
 
   componentDidMount() {
@@ -37,12 +24,21 @@ class Posts extends Component {
   }
 
   render() {
+    let postRender = null;
+    if (this.state.posts) {
+      postRender = this.state.posts.map((post) => (
+        <Link to={"/post/" + post.id} key={post.id}>
+          <Post postData={post} />
+        </Link>
+      ));
+    }
     return (
-      <div>
-        {this.state.posts.map((post) => (
-          <Post key={post.id} postData={post} />
-        ))}
-      </div>
+      <Auxillary>
+        {postRender}
+        <Link to="/new">
+          <Button>New Post</Button>
+        </Link>
+      </Auxillary>
     );
   }
 }
