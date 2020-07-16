@@ -4,11 +4,14 @@ import Button from "../../components/UI/Forms/Button/Button";
 import axios from "../../axios-posts";
 import Auxillary from "../../hoc/Auxillary/Auxillary";
 import { Redirect } from "react-router-dom";
+
+//rendered when making a new entry
 class NewPost extends Component {
   state = {
-    redirec: false,
+    redirec: false, //set to true once form is submitted to redirect
   };
   addPostHandler = (event) => {
+    //submit form to the database
     event.preventDefault();
     const data = {
       title: event.target.title.value,
@@ -23,6 +26,7 @@ class NewPost extends Component {
   render() {
     let redirectElement = null;
     if (this.state.redirect) {
+      //if redirect state variable is true then redirect to "/"
       redirectElement = <Redirect to="/" />;
     }
     return (

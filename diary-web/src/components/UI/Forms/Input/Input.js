@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./Input.module.css";
+//input compoenent please add all button stying in the input css module file
 const input = (props) => {
   let inputElement = null;
   switch (props.elementtype) {
