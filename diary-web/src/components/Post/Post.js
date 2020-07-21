@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./Post.module.css";
+//render post flags
 const post = (props) => {
   return (
     <div className={classes.Post}>

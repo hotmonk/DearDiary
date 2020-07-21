@@ -1,70 +1,52 @@
 import React, { Component } from "react";
-import axios from "../../axios-posts";
-import Button from "../../components/UI/Forms/Button/Button";
+import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+
+import Button from "../../components/UI/Forms/Button/Button";
 import Input from "../../components/UI/Forms/Input/Input";
+import * as editPostActions from "../../store/actions/index";
+
+//page to edit posts
 class EditPost extends Component {
-  state = {
-    loadedPost: null,
-    redirect: false,
-  };
   componentDidMount() {
-    axios
-      .get("/posts/" + this.props.match.params.id + ".json")
-      .then((res) => {
-        this.setState({ loadedPost: res.data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    //makes the post load only once in the beggineing
+    this.props.onInitPost(this.props.match.params.id);
   }
 
   onChangeHandlerTitle = (event) => {
-    const data = {
-      title: event.target.value,
-      content: this.state.loadedPost.content,
-    };
-    this.setState({ loadedPost: data });
+    this.props.updateTitleHandler(event.target.value);
   };
 
   onChangeHandlerContent = (event) => {
-    const data = {
-      title: this.state.loadedPost.title,
-      content: event.target.value,
-    };
-    this.setState({ loadedPost: data });
+    this.props.updateContentHandler(event.target.value);
   };
 
   onSubmitHandler = (event) => {
+    //activated after submitting
     event.preventDefault();
     const data = {
       title: event.target.title.value,
       content: event.target.content.value,
     };
-    axios
-      .put("/posts/" + this.props.match.params.id + ".json", data)
-      .then((response) => {
-        this.setState({ redirect: true });
-        console.log(response);
-      });
+    this.props.onSubmitPost(this.props.match.params.id, data);
   };
   render() {
     let post = null;
-    if (this.state.loadedPost) {
+    if (this.props.title) {
       post = (
         <form onSubmit={this.onSubmitHandler}>
           <div>
             Title:{" "}
             <Input
               elementtype="input"
-              value={this.state.loadedPost.title}
+              value={this.props.title}
               name="title"
               onChange={this.onChangeHandlerTitle}
             ></Input>
             Content:
             <Input
               elementtype="textarea"
-              value={this.state.loadedPost.content}
+              value={this.props.content}
               name="content"
               onChange={this.onChangeHandlerContent}
             ></Input>
@@ -73,12 +55,33 @@ class EditPost extends Component {
         </form>
       );
     }
-    if (this.state.redirect) {
-      post = <Redirect to="/" />;
+    if (this.props.redirect) {
+      let path = "/post/" + this.props.match.params.id;
+      post = <Redirect to={path} />; //redirected once the form is submitted
     }
 
     return post;
   }
 }
 
-export default EditPost;
+const mapStateToProps = (state) => {
+  return {
+    title: state.editPost.title,
+    content: state.editPost.content,
+    redirect: state.editPost.redirect,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateTitleHandler: (newTitle) =>
+      dispatch(editPostActions.updatePostTitle(newTitle)),
+    updateContentHandler: (newContent) =>
+      dispatch(editPostActions.updatePostContent(newContent)),
+    onInitPost: (id) => dispatch(editPostActions.initPost(id)),
+    onSubmitPost: (id, data) =>
+      dispatch(editPostActions.updatePostReq(id, data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditPost);

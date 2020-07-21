@@ -10,6 +10,7 @@ function App() {
   return (
     <div>
       <Layout>
+        {/* routing links setup */}
         <Switch>
           <Route path="/post/:id/edit" component={EditPost} />
           <Route path="/post/:id" component={FullPost} />
