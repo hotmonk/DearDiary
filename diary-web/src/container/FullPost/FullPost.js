@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import axios from "../../axios-posts";
-import Button from "../../components/UI/Forms/Button/Button";
+import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+
+import Button from "../../components/UI/Forms/Button/Button";
+import * as editPostActions from "../../store/actions/index";
 
 //rendered when full post is rendered, also has option to deete the post
 class FullPost extends Component {
@@ -10,26 +12,11 @@ class FullPost extends Component {
     redirect: false, // redirect after delete reques
   };
   componentDidMount() {
-    // lifecycle method to just load the component once
-    axios
-      .get("/posts/" + this.props.match.params.id + ".json")
-      .then((res) => {
-        this.setState({ loadedPost: res.data }); // load the ful post using the id
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.props.onInitPost(this.props.match.params.id);
   }
   deletePostHandler = () => {
     // delete the given post
-    axios
-      .delete("/posts/" + this.props.match.params.id + ".json")
-      .then(() => {
-        this.setState({ redirect: true });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.props.onDeletePost(this.props.match.params.id);
   };
   editPostHandler = () => {
     // to redirect to edit the post
@@ -37,17 +24,17 @@ class FullPost extends Component {
   };
   render() {
     let post = null;
-    if (this.state.loadedPost) {
+    if (this.props.title) {
       post = (
         <div>
-          <p>Title: {this.state.loadedPost.title}</p>
-          <p>Content: {this.state.loadedPost.content}</p>
+          <p>Title: {this.props.title}</p>
+          <p>Content: {this.props.content}</p>
           <Button clicked={this.deletePostHandler}>Delete</Button>
           <Button clicked={this.editPostHandler}>Edit</Button>
         </div>
       );
     }
-    if (this.state.redirect) {
+    if (this.props.redirect) {
       //if the post is deleted then this if statement will redirect if redirect state variable is true
       post = <Redirect to="/" />;
     }
@@ -56,4 +43,19 @@ class FullPost extends Component {
   }
 }
 
-export default FullPost;
+const mapStateToProps = (state) => {
+  return {
+    title: state.editPost.title,
+    content: state.editPost.content,
+    redirect: state.editPost.redirect,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onInitPost: (id) => dispatch(editPostActions.initPost(id)),
+    onDeletePost: (id) => dispatch(editPostActions.deletePostReq(id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FullPost);

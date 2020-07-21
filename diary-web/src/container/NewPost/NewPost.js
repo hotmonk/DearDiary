@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import Input from "../../components/UI/Forms/Input/Input";
-import Button from "../../components/UI/Forms/Button/Button";
-import axios from "../../axios-posts";
-import Auxillary from "../../hoc/Auxillary/Auxillary";
+import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
+import Input from "../../components/UI/Forms/Input/Input";
+import Button from "../../components/UI/Forms/Button/Button";
+import Auxillary from "../../hoc/Auxillary/Auxillary";
+
+import * as newPostActions from "../../store/actions/index";
 //rendered when making a new entry
 class NewPost extends Component {
   state = {
@@ -18,14 +20,11 @@ class NewPost extends Component {
       content: event.target.content.value,
     };
 
-    axios.post("/posts.json", data).then((response) => {
-      this.setState({ redirect: true });
-      console.log(response);
-    });
+    this.props.onSubmitHandler(data);
   };
   render() {
     let redirectElement = null;
-    if (this.state.redirect) {
+    if (this.props.redirect) {
       //if redirect state variable is true then redirect to "/"
       redirectElement = <Redirect to="/" />;
     }
@@ -42,4 +41,16 @@ class NewPost extends Component {
   }
 }
 
-export default NewPost;
+const mapStateToProps = (state) => {
+  return {
+    redirect: state.newPost.redirect,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSubmitHandler: (data) => dispatch(newPostActions.postPostReq(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewPost);
