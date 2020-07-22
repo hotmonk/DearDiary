@@ -7,10 +7,10 @@ export const postPost = () => {
   };
 };
 
-export const postPostReq = (data) => {
+export const postPostReq = (data, token) => {
   return (dispatch) => {
     axios
-      .post("/posts.json", data)
+      .post("/posts.json?auth=" + token, data)
       .then((response) => {
         dispatch(postPost());
       })

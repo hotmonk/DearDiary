@@ -13,7 +13,7 @@ class Posts extends Component {
   };
 
   componentDidMount() {
-    this.props.onInitPosts();
+    this.props.onInitPosts(this.props.token);
   }
 
   render() {
@@ -41,12 +41,13 @@ const mapStateToProps = (state) => {
   return {
     posts: state.posts,
     loaded: state.loaded,
+    token: state.auth.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onInitPosts: () => dispatch(postsActions.getPostsReq()),
+    onInitPosts: (token) => dispatch(postsActions.getPostsReq(token)),
   };
 };
 

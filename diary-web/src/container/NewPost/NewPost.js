@@ -15,12 +15,13 @@ class NewPost extends Component {
   addPostHandler = (event) => {
     //submit form to the database
     event.preventDefault();
+    console.log(event.target);
     const data = {
       title: event.target.title.value,
       content: event.target.content.value,
     };
 
-    this.props.onSubmitHandler(data);
+    this.props.onSubmitHandler(data, this.props.token);
   };
   render() {
     let redirectElement = null;
@@ -32,8 +33,8 @@ class NewPost extends Component {
       <Auxillary>
         {redirectElement}
         <form onSubmit={this.addPostHandler}>
-          <Input elementtype="input" placeholder="title" name="title" />
-          <Input elementtype="input" placeholder="content" name="content" />
+          <input elementtype="input" placeholder="title" name="title" />
+          <input elementtype="input" placeholder="content" name="content" />
           <Button btnType="Success">Submit</Button>
         </form>
       </Auxillary>
@@ -44,12 +45,14 @@ class NewPost extends Component {
 const mapStateToProps = (state) => {
   return {
     redirect: state.newPost.redirect,
+    token: state.auth.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSubmitHandler: (data) => dispatch(newPostActions.postPostReq(data)),
+    onSubmitHandler: (data, token) =>
+      dispatch(newPostActions.postPostReq(data, token)),
   };
 };
 

@@ -9,3 +9,5 @@ export {
 export { postPostReq } from "./newPost";
 
 export { getPostsReq } from "./posts";
+
+export { auth } from "./auth";

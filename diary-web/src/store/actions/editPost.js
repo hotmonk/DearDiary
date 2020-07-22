@@ -22,10 +22,10 @@ export const setPost = (post) => {
   };
 };
 
-export const initPost = (id) => {
+export const initPost = (id, token) => {
   return (dispatch) => {
     axios
-      .get("/posts/" + id + ".json")
+      .get("/posts/" + id + ".json?auth=" + token)
       .then((res) => {
         dispatch(setPost(res.data));
       })
@@ -41,10 +41,10 @@ export const updatePost = () => {
   };
 };
 
-export const updatePostReq = (id, data) => {
+export const updatePostReq = (id, data, token) => {
   return (dispatch) => {
     axios
-      .put("/posts/" + id + ".json", data)
+      .put("/posts/" + id + ".json?auth=" + token, data)
       .then(() => {
         dispatch(updatePost());
       })
@@ -60,10 +60,10 @@ export const deletePost = () => {
   };
 };
 
-export const deletePostReq = (id) => {
+export const deletePostReq = (id, token) => {
   return (dispatch) => {
     axios
-      .delete("/posts/" + id + ".json")
+      .delete("/posts/" + id + ".json?auth=" + token)
       .then(() => {
         dispatch(deletePost());
       })

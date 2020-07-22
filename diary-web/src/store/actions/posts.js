@@ -12,10 +12,10 @@ export const getPosts = (posts) => {
   };
 };
 
-export const getPostsReq = () => {
+export const getPostsReq = (token) => {
   return (dispatch) => {
     axios
-      .get("/posts.json") //get request to get all posts from firebase
+      .get("/posts.json?auth=" + token) //get request to get all posts from firebase
       .then((res) => {
         dispatch(getPosts(res.data));
       })
