@@ -6,10 +6,12 @@ import { Route, Switch } from "react-router-dom";
 import NewPost from "./container/NewPost/NewPost";
 import FullPost from "./container/FullPost/FullPost";
 import EditPost from "./container/EditPost/EditPost";
+import Header from "./container/Header/Header";
 function App() {
   return (
     <div>
       <Layout>
+        <Header/>
         {/* routing links setup */}
         <Switch>
           <Route path="/post/:id/edit" component={EditPost} />
