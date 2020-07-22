@@ -11,6 +11,7 @@ import * as serviceWorker from "./serviceWorker";
 import editPostReducer from "./store/reducer/editPost";
 import newPostReducer from "./store/reducer/newPost";
 import postsReducer from "./store/reducer/posts";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

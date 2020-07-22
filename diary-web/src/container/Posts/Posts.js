@@ -3,8 +3,8 @@ import Post from "../../components/Post/Post";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Auxillary from "../../hoc/Auxillary/Auxillary";
-import Button from "../../components/UI/Forms/Button/Button";
 import * as postsActions from "../../store/actions/index";
+import {Button } from 'reactstrap';
 
 //Container component that is rendered during the first page after login
 class Posts extends Component {
@@ -28,10 +28,14 @@ class Posts extends Component {
 
     return (
       <Auxillary>
-        {postRender}
-        <Link to="/new">
-          <Button>New Post</Button>
-        </Link>
+        <div className="container">
+           {postRender}
+          <div className="row">
+            <Link to="/new">
+              <Button color="danger">New Post</Button>
+            </Link>
+          </div>
+        </div>
       </Auxillary>
     );
   }
