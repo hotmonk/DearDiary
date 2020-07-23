@@ -13,7 +13,9 @@ class Posts extends Component {
   };
 
   componentDidMount() {
-    this.props.onInitPosts();
+    setTimeout(() => {
+      this.props.onInitPosts(this.props.token, this.props.userId);
+    }, 100);
   }
 
   render() {
@@ -25,10 +27,19 @@ class Posts extends Component {
         </Link>
       ));
     }
-
+    let logoutButton = null;
+    if (this.props.token) {
+      logoutButton = (
+        <Link to="/logout">
+          <button>logout</button>
+        </Link>
+      );
+    }
     return (
       <Auxillary>
+        {logoutButton}
         {postRender}
+
         <Link to="/new">
           <Button>New Post</Button>
         </Link>
@@ -41,12 +52,15 @@ const mapStateToProps = (state) => {
   return {
     posts: state.posts,
     loaded: state.loaded,
+    token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onInitPosts: () => dispatch(postsActions.getPostsReq()),
+    onInitPosts: (token, userId) =>
+      dispatch(postsActions.getPostsReq(token, userId)),
   };
 };
 

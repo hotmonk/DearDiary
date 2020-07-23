@@ -9,8 +9,9 @@ import * as editPostActions from "../../store/actions/index";
 //page to edit posts
 class EditPost extends Component {
   componentDidMount() {
-    //makes the post load only once in the beggineing
-    this.props.onInitPost(this.props.match.params.id);
+    setTimeout(() => {
+      this.props.onInitPost(this.props.match.params.id, this.props.token);
+    }, 100);
   }
 
   onChangeHandlerTitle = (event) => {
@@ -28,7 +29,7 @@ class EditPost extends Component {
       title: event.target.title.value,
       content: event.target.content.value,
     };
-    this.props.onSubmitPost(this.props.match.params.id, data);
+    this.props.onSubmitPost(this.props.match.params.id, data, this.props.token);
   };
   render() {
     let post = null;
@@ -37,19 +38,19 @@ class EditPost extends Component {
         <form onSubmit={this.onSubmitHandler}>
           <div>
             Title:{" "}
-            <Input
+            <input
               elementtype="input"
               value={this.props.title}
               name="title"
               onChange={this.onChangeHandlerTitle}
-            ></Input>
+            ></input>
             Content:
-            <Input
+            <input
               elementtype="textarea"
               value={this.props.content}
               name="content"
               onChange={this.onChangeHandlerContent}
-            ></Input>
+            ></input>
           </div>
           <Button btnType="Success">Submit</Button>
         </form>
@@ -69,6 +70,7 @@ const mapStateToProps = (state) => {
     title: state.editPost.title,
     content: state.editPost.content,
     redirect: state.editPost.redirect,
+    token: state.auth.token,
   };
 };
 
@@ -78,9 +80,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(editPostActions.updatePostTitle(newTitle)),
     updateContentHandler: (newContent) =>
       dispatch(editPostActions.updatePostContent(newContent)),
-    onInitPost: (id) => dispatch(editPostActions.initPost(id)),
-    onSubmitPost: (id, data) =>
-      dispatch(editPostActions.updatePostReq(id, data)),
+    onInitPost: (id, token) => dispatch(editPostActions.initPost(id, token)),
+    onSubmitPost: (id, data, token) =>
+      dispatch(editPostActions.updatePostReq(id, data, token)),
   };
 };
 
