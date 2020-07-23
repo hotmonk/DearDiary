@@ -28,6 +28,7 @@ class EditPost extends Component {
     const data = {
       title: event.target.title.value,
       content: event.target.content.value,
+      userId: this.props.userId,
     };
     this.props.onSubmitPost(this.props.match.params.id, data, this.props.token);
   };
@@ -71,6 +72,7 @@ const mapStateToProps = (state) => {
     content: state.editPost.content,
     redirect: state.editPost.redirect,
     token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 
