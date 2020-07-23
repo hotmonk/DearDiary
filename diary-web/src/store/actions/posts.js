@@ -12,10 +12,12 @@ export const getPosts = (posts) => {
   };
 };
 
-export const getPostsReq = () => {
+export const getPostsReq = (token, userId) => {
   return (dispatch) => {
+    const queryParams =
+      "?auth=" + token + '&orderBy="userId"&equalTo="' + userId + '"';
     axios
-      .get("/posts.json") //get request to get all posts from firebase
+      .get("/posts.json" + queryParams) //get request to get all posts from firebase
       .then((res) => {
         dispatch(getPosts(res.data));
       })

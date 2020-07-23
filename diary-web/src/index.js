@@ -12,6 +12,8 @@ import editPostReducer from "./store/reducer/editPost";
 import newPostReducer from "./store/reducer/newPost";
 import postsReducer from "./store/reducer/posts";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import authReducer from "./store/reducer/auth";
+
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -19,6 +21,7 @@ const rootReducer = combineReducers({
   editPost: editPostReducer,
   newPost: newPostReducer,
   posts: postsReducer,
+  auth: authReducer,
 });
 const store = createStore(
   rootReducer,

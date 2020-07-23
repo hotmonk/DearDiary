@@ -15,14 +15,15 @@ class NewPost extends Component {
     redirec: false, //set to true once form is submitted to redirect
   };
   addPostHandler = (event) => {
-    //submit form to the database
-    //event.preventDefault();
+    event.preventDefault();
+    console.log(event.target);
     const data = {
-      title: event.title,
-      content: event.content
+      title: event.target.title.value,
+      content: event.target.content.value,
+      userId: this.props.userId,
     };
 
-    this.props.onSubmitHandler(data);
+    this.props.onSubmitHandler(data, this.props.token);
   };
   render() {
     let redirectElement = null;
@@ -58,8 +59,8 @@ class NewPost extends Component {
                     <Button type="submit" color="primary">
                     Send Post
                     </Button>
-                </Col
->            </Row>
+                </Col>            
+</Row>
         </LocalForm>
         </div>
       </Auxillary>
@@ -70,12 +71,15 @@ class NewPost extends Component {
 const mapStateToProps = (state) => {
   return {
     redirect: state.newPost.redirect,
+    token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSubmitHandler: (data) => dispatch(newPostActions.postPostReq(data)),
+    onSubmitHandler: (data, token) =>
+      dispatch(newPostActions.postPostReq(data, token)),
   };
 };
 

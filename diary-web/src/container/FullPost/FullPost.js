@@ -12,11 +12,13 @@ class FullPost extends Component {
     redirect: false, // redirect after delete reques
   };
   componentDidMount() {
-    this.props.onInitPost(this.props.match.params.id);
+    setTimeout(() => {
+      this.props.onInitPost(this.props.match.params.id, this.props.token);
+    }, 100);
   }
   deletePostHandler = () => {
     // delete the given post
-    this.props.onDeletePost(this.props.match.params.id);
+    this.props.onDeletePost(this.props.match.params.id, this.props.token);
   };
   editPostHandler = () => {
     // to redirect to edit the post
@@ -48,13 +50,15 @@ const mapStateToProps = (state) => {
     title: state.editPost.title,
     content: state.editPost.content,
     redirect: state.editPost.redirect,
+    token: state.auth.token,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onInitPost: (id) => dispatch(editPostActions.initPost(id)),
-    onDeletePost: (id) => dispatch(editPostActions.deletePostReq(id)),
+    onInitPost: (id, token) => dispatch(editPostActions.initPost(id, token)),
+    onDeletePost: (id, token) =>
+      dispatch(editPostActions.deletePostReq(id, token)),
   };
 };
 
