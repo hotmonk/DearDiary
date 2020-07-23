@@ -9,8 +9,9 @@ import * as editPostActions from "../../store/actions/index";
 //page to edit posts
 class EditPost extends Component {
   componentDidMount() {
-    //makes the post load only once in the beggineing
-    this.props.onInitPost(this.props.match.params.id, this.props.token);
+    setTimeout(() => {
+      this.props.onInitPost(this.props.match.params.id, this.props.token);
+    }, 100);
   }
 
   onChangeHandlerTitle = (event) => {

@@ -19,6 +19,7 @@ class NewPost extends Component {
     const data = {
       title: event.target.title.value,
       content: event.target.content.value,
+      userId: this.props.userId,
     };
 
     this.props.onSubmitHandler(data, this.props.token);
@@ -46,6 +47,7 @@ const mapStateToProps = (state) => {
   return {
     redirect: state.newPost.redirect,
     token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 

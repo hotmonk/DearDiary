@@ -12,7 +12,9 @@ class FullPost extends Component {
     redirect: false, // redirect after delete reques
   };
   componentDidMount() {
-    this.props.onInitPost(this.props.match.params.id, this.props.token);
+    setTimeout(() => {
+      this.props.onInitPost(this.props.match.params.id, this.props.token);
+    }, 100);
   }
   deletePostHandler = () => {
     // delete the given post

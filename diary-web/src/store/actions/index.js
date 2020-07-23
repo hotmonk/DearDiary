@@ -10,4 +10,4 @@ export { postPostReq } from "./newPost";
 
 export { getPostsReq } from "./posts";
 
-export { auth } from "./auth";
+export { auth, logout, authCheckState } from "./auth";
